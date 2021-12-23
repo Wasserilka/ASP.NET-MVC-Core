@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- NavigationButton -->
+    <Color x:Key="CNavigationButtonNormal" >#336666</Color>
+    <Color x:Key="CNavigationButtonOver" >#427575</Color>
+    <Color x:Key="CNavigationButtonPress" >#296262</Color>
+    <!-- ScrollThumb -->
+    <Brush x:Key="BScrollThumbNormal" >#007373</Brush>
+    <Brush x:Key="BScrollThumbOver" >#008080</Brush>
+    <!-- DataGrid -->
+    <Color x:Key="CDataGridRowNormal" >#F8FEFE</Color>
+    <Color x:Key="CDataGridRowOver" >#92C5C5</Color>
+    <Color x:Key="CDataGridRowPress" >#72A5A5</Color>
+    <Brush x:Key="BDataGridHardDriveBackground" >#F8FEFE</Brush>
+    <Brush x:Key="BDataGridBorder" >#92C5C5</Brush>
+    <!-- ContextMenu -->
+    <Brush x:Key="BContextMenuBack" >#A3C6C6</Brush>
+    <Brush x:Key="BContextMenuBorder" >#93B6B6</Brush>
+    <Brush x:Key="BContextMenuItem" >#558888</Brush>
+    <!-- Font -->
+    <Brush x:Key="BFont1" >#C0C0C0</Brush>
+    <Brush x:Key="BFont2" >#284A4A</Brush>
+    <Color x:Key="CFont" >#333333</Color>
+    <FontFamily x:Key="FontFamily">Calibri Light</FontFamily>
+</ResourceDictionary>

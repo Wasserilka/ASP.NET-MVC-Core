@@ -1,0 +1,33 @@
+﻿<Window x:Class="FileManager.ModalWindows.ObjectInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Height="200" 
+        Width="300" 
+        WindowStartupLocation="CenterOwner"
+        Title="Свойства">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock
+            x:Name="ObjectInfoTextBlock"
+            Grid.Row="0" 
+            FontSize="14" 
+            FontFamily="{DynamicResource FontFamily}" 
+            Margin="3" 
+            VerticalAlignment="Stretch"/>
+        <Button
+                Content="Ок"
+                Grid.Row="1"
+                Margin="5" 
+                Width="100" 
+                HorizontalAlignment="Center" 
+                Style="{DynamicResource ModalWindowButton}" 
+                Click="Button_Click_Ok" 
+                IsDefault="True"/>
+    </Grid>
+</Window>
