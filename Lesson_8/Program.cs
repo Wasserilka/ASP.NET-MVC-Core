@@ -1,6 +1,9 @@
+using Lesson_8.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
 
 var app = builder.Build();
 
