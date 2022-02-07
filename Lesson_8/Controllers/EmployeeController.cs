@@ -79,21 +79,9 @@ namespace Lesson_8.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(EmployeeViewModel model)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (!ModelState.IsValid) return View(model);
-
-            var employee = new Employee
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Position = model.Position,
-                CreatedDate = model.CreatedDate,
-                Age = model.Age
-            };
-
-            EmployeeRepository.Delete(employee);
-
+            EmployeeRepository.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -113,6 +101,29 @@ namespace Lesson_8.Controllers
             };
 
             return View(model);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(EmployeeViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var employee = new Employee
+            {
+                Name = model.Name,
+                Position = model.Position,
+                CreatedDate = model.CreatedDate,
+                Age = model.Age
+            };
+
+            EmployeeRepository.Create(employee);
+
+            return RedirectToAction("Index");
         }
     }
 }

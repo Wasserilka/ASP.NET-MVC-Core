@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Список сотрудников";
 }
-
+<div class="form-group">
+    <a asp-action="Create" class="btn btn-primary">Новый сотрудник</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -28,7 +30,7 @@
                 <td>@employee.Age.ToString()</td>
                 <td>@employee.CreatedDate.ToString()</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@employee.Id">Редактировать</a>
+                    <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-primary">Редактировать</a>
                 </td>
             </tr>
         }

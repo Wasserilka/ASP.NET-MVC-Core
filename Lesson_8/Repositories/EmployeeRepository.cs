@@ -7,8 +7,9 @@ namespace Lesson_8.Repositories
     {
         IEnumerable<Employee> GetAll();
         Employee? GetById(int id);
+        int Create (Employee employee);
         bool Update(Employee employee);
-        bool Delete(Employee employee);
+        bool Delete(int id);
     }
 
     public class EmployeeRepository : IEmployeeRepository
@@ -22,10 +23,23 @@ namespace Lesson_8.Repositories
             Employees = TestData.Employees;
         }
 
-        public bool Delete(Employee employee)
+        public int Create(Employee employee)
         {
-            var old_employee = Employees.FirstOrDefault(employee);
-            if (old_employee == null) return false;
+            if (employee == null) throw new ArgumentNullException(nameof(employee));
+
+            if (Employees.Contains(employee)) throw new ArgumentException($"Сотрудник {nameof(employee)} уже существует");
+
+            var newId = Employees.Count == 0 ? 1: Employees.Max(x => x.Id) + 1;
+            employee.Id = newId;
+            Employees.Add(employee);
+
+            return newId;
+        }
+
+        public bool Delete(int id)
+        {
+            var employee = Employees.FirstOrDefault(i => i.Id == id);
+            if (employee == null) return false;
 
             Employees.Remove(employee);
             return true;
