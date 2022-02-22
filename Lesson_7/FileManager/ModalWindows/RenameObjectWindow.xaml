@@ -1,0 +1,49 @@
+﻿<Window x:Class="FileManager.ModalWindows.RenameObjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        Height="130" 
+        Width="300" 
+        WindowStartupLocation="CenterOwner"
+        Title="Переименовать">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBox 
+            x:Name="ObjectNameTextBox" 
+            Grid.Row="0" 
+            FontSize="14" 
+            FontFamily="{DynamicResource FontFamily}" 
+            Margin="10" 
+            VerticalAlignment="Center"/>
+        <Grid Grid.ColumnSpan="2" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Content="Ок" 
+                Grid.Column="0" 
+                Margin="5" 
+                Width="100" 
+                HorizontalAlignment="Right" 
+                Style="{DynamicResource ModalWindowButton}" 
+                Click="Button_Click_Ok" 
+                IsDefault="True"/>
+            <Button 
+                Content="Отмена" 
+                Grid.Column="1" 
+                Margin="5" 
+                Width="100" 
+                HorizontalAlignment="Left" 
+                Style="{DynamicResource ModalWindowButton}" 
+                Click="Button_Click_Cancel" 
+                IsCancel="True"/>
+        </Grid>
+    </Grid>
+</Window>

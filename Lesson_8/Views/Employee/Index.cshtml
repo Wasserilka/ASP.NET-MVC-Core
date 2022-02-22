@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Lesson_8.Models.Employee>
+
+@{
+    ViewData["Title"] = "Список сотрудников";
+}
+<div class="form-group">
+    <a asp-action="Create" class="btn btn-primary">Новый сотрудник</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Имя</th>
+            <th>Должность</th>
+            <th>Возраст</th>
+            <th>Дата приема</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model){
+            <tr>
+                <td>@employee.Id</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@employee.Id">
+                        @employee.Name
+                    </a>
+                </td>
+                <td>@employee.Position</td>
+                <td>@employee.Age.ToString()</td>
+                <td>@employee.CreatedDate.ToString()</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-primary">Редактировать</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>
