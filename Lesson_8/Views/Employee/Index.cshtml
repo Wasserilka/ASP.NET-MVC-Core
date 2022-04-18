@@ -3,9 +3,12 @@
 @{
     ViewData["Title"] = "Список сотрудников";
 }
-<div class="form-group">
+<span class="form-group">
     <a asp-action="Create" class="btn btn-primary">Новый сотрудник</a>
-</div>
+</span>
+<span class="form-group">
+    <a asp-action="SendMail" class="btn btn-primary">Разослать собщение</a>
+</span>
 <table class="table">
     <thead>
         <tr>
