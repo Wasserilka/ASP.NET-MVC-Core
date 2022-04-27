@@ -17,6 +17,6 @@ namespace Lesson_8.ViewModels
         [Range(18, 70)]
         public int Age { get; set; }
         [Display(Name = "Дата приема")]
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
     }
 }

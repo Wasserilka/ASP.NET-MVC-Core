@@ -6,6 +6,6 @@
         public string Name { get; set; }
         public string Position { get; set; }
         public int Age { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Lesson_8.Models;
 using Lesson_8.Data;
+using Dapper;
 
 namespace Lesson_8.Repositories
 {
@@ -7,7 +8,7 @@ namespace Lesson_8.Repositories
     {
         IEnumerable<Employee> GetAll();
         Employee? GetById(int id);
-        int Create (Employee employee);
+        void Create (Employee employee);
         bool Update(Employee employee);
         bool Delete(int id);
     }
@@ -15,55 +16,56 @@ namespace Lesson_8.Repositories
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly ILogger<EmployeeRepository> Logger;
-        private readonly ICollection<Employee> Employees;
 
         public EmployeeRepository(ILogger<EmployeeRepository> logger)
         {
             Logger = logger;
-            Employees = TestData.Employees;
+            SqlMapper.AddTypeHandler(new DateTimeOffsetHandler());
         }
 
-        public int Create(Employee employee)
+        public void Create(Employee employee)
         {
-            if (employee == null) throw new ArgumentNullException(nameof(employee));
-
-            if (Employees.Contains(employee)) throw new ArgumentException($"Сотрудник {nameof(employee)} уже существует");
-
-            var newId = Employees.Count == 0 ? 1: Employees.Max(x => x.Id) + 1;
-            employee.Id = newId;
-            Employees.Add(employee);
-
-            return newId;
+            using (var connection = new ConnectionManager().GetOpenedConnection())
+            {
+                connection.Query<Employee>("INSERT INTO employees(name, position, age, createddate) VALUES(@name, @position, @age, @createddate)",
+                    new { name = employee.Name, position = employee.Position, age = employee.Age, createddate = employee.CreatedDate.ToUnixTimeSeconds() });
+            }
         }
 
         public bool Delete(int id)
         {
-            var employee = Employees.FirstOrDefault(i => i.Id == id);
-            if (employee == null) return false;
-
-            Employees.Remove(employee);
+            using (var connection = new ConnectionManager().GetOpenedConnection())
+            {
+                connection.Query<Employee>("DELETE FROM employees WHERE id=@id",
+                    new { id = id });
+            }
             return true;
         }
 
-        public IEnumerable<Employee> GetAll() => Employees;
+        public IEnumerable<Employee> GetAll()
+        {
+            using (var connection = new ConnectionManager().GetOpenedConnection())
+            {
+                return connection.Query<Employee>("SELECT * FROM employees").AsList();
+            }
+        }
 
         public Employee? GetById(int id)
         {
-            var employee = Employees.FirstOrDefault(i => i.Id == id);
-            return employee;
+            using (var connection = new ConnectionManager().GetOpenedConnection())
+            {
+                return connection.QueryFirstOrDefault<Employee>("SELECT * FROM employees WHERE id=@id",
+                    new { id = id });
+            }
         }
 
         public bool Update(Employee employee)
         {
-            if (employee == null) throw new ArgumentNullException(nameof(employee));
-
-            var old_employee = Employees.FirstOrDefault(employee);
-            if (old_employee == null) return false;
-
-            old_employee.Name = employee.Name;
-            old_employee.Position = employee.Position;
-            old_employee.Age = employee.Age;
-            old_employee.CreatedDate = employee.CreatedDate;
+            using (var connection = new ConnectionManager().GetOpenedConnection())
+            {
+                connection.Query<Employee>("UPDATE employees SET name=@name, position=@position, age=@age, createddate=@createddate WHERE id=@id",
+                   new { id = employee.Id, name = employee.Name, position = employee.Position, age = employee.Age, createddate = employee.CreatedDate.ToUnixTimeSeconds() });
+            }
 
             return true;
         }
