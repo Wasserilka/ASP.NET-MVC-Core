@@ -7,7 +7,7 @@
     <a asp-action="Create" class="btn btn-primary">Новый сотрудник</a>
 </span>
 <span class="form-group">
-    <a asp-action="SendMail" class="btn btn-primary">Разослать собщение</a>
+    <a asp-action="SendMail" class="btn btn-primary">Отправить собщение</a>
 </span>
 <table class="table">
     <thead>
@@ -31,7 +31,7 @@
                 </td>
                 <td>@employee.Position</td>
                 <td>@employee.Age.ToString()</td>
-                <td>@employee.CreatedDate.ToString()</td>
+                <td>@employee.CreatedDate.ToString("d")</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-primary">Редактировать</a>
                 </td>
