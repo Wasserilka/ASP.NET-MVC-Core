@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Lesson_8.Models;
-using Lesson_8.Data;
+using Lesson_8.Messenger;
+using Lesson_8.Messenger.Configuration;
+using Lesson_8.Messenger.Models;
 using Lesson_8.ViewModels;
 using Lesson_8.Repositories;
+using AutoMapper;
+using Razor.Templating.Core;
 
 namespace Lesson_8.Controllers
 {
@@ -10,11 +14,13 @@ namespace Lesson_8.Controllers
     {
         private readonly ILogger<HomeController> Logger;
         private readonly IEmployeeRepository EmployeeRepository;
+        private readonly IMapper Mapper;
 
-        public EmployeeController(ILogger<HomeController> logger, IEmployeeRepository repository)
+        public EmployeeController(ILogger<HomeController> logger, IEmployeeRepository repository, IMapper mapper)
         {
             Logger = logger;
             EmployeeRepository = repository;
+            Mapper = mapper;
         }
 
         public IActionResult Index()
@@ -29,15 +35,7 @@ namespace Lesson_8.Controllers
 
             if (employee == null) return NotFound();
 
-            var model = new EmployeeViewModel
-            {
-                Id = employee.Id,
-                Name = employee.Name,
-                Position = employee.Position,
-                Age = employee.Age,
-                CreatedDate = employee.CreatedDate
-            };
-
+            var model = Mapper.Map<EmployeeViewModel>(employee);
             return View(model);
         }
 
@@ -46,15 +44,7 @@ namespace Lesson_8.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var employee = new Employee
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Position = model.Position,
-                CreatedDate = model.CreatedDate,
-                Age = model.Age
-            };
-
+            var employee = Mapper.Map<Employee>(model);
             EmployeeRepository.Update(employee);
 
             return RedirectToAction("Index");
@@ -66,15 +56,7 @@ namespace Lesson_8.Controllers
 
             if (employee == null) return NotFound();
 
-            var model = new EmployeeViewModel
-            {
-                Id = employee.Id,
-                Name = employee.Name,
-                Position = employee.Position,
-                Age = employee.Age,
-                CreatedDate = employee.CreatedDate
-            };
-
+            var model = Mapper.Map<EmployeeViewModel>(employee);
             return View(model);
         }
 
@@ -91,15 +73,7 @@ namespace Lesson_8.Controllers
 
             if (employee == null) return NotFound();
 
-            var model = new EmployeeViewModel
-            {
-                Id = employee.Id,
-                Name = employee.Name,
-                Position = employee.Position,
-                Age = employee.Age,
-                CreatedDate = employee.CreatedDate
-            };
-
+            var model = Mapper.Map<EmployeeViewModel>(employee);
             return View(model);
         }
 
@@ -113,15 +87,32 @@ namespace Lesson_8.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var employee = new Employee
-            {
-                Name = model.Name,
-                Position = model.Position,
-                CreatedDate = model.CreatedDate,
-                Age = model.Age
-            };
-
+            var employee = Mapper.Map<Employee>(model);
             EmployeeRepository.Create(employee);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult SendMail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SendMail(Message model)
+        {
+            var mailConfig = new MailGatewayOptions();
+            mailConfig.SenderName = "";
+            mailConfig.Sender = "";
+            mailConfig.Password = "";
+            mailConfig.SMTPServer = "";
+
+            var mail = new MailGateway(mailConfig);
+
+            model.IsHtml = true;
+            model.Body = RazorTemplateEngine.RenderAsync("~/MailTemplates/Message.cshtml", model).Result;
+
+            mail.SendMessage(model);
 
             return RedirectToAction("Index");
         }

@@ -1,9 +1,15 @@
+using Lesson_8;
 using Lesson_8.Repositories;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
+
+var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+var mapper = mapperConfiguration.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
